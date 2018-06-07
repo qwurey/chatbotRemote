@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>BocdcBot聊天网页</title>
+    <style type="text/css">
+    body
+    {
+        /*background: url(../images/bg.png)repeat fixed center top;*/
+        background-color: #e5e5d7;
+        margin:0px;
+    }
+    .content
+    {
+        width:800px;
+        height:auto;
+        display:block;
+        overflow:hidden;
+        margin: 0px auto;
+        background-color: #fff;
+        /*background-image: url(../images/bg2.gif);*/
+        padding-top: 20px;
+        padding-bottom: 20px;
+        -moz-box-shadow: 0 2px 2px 2px #888;
+        -webkit-box-shadow: 0 2px 2px 2px #888;
+        box-shadow: 0 2px 2px 2px #888;
+    }
+    .chatroom
+    {
+        display: block;
+        overflow: hidden;
+        width:440px;
+        height:auto;
+        float:left;
+        margin-left:20px;
+    }
+
+    #talkbox
+    {
+        width: 410px;
+        height: 500px;
+        display: block;
+        overflow: hidden;
+        clear: both;
+        border: 1px solid #888;
+        background-color: #fff;
+        /*background-image: url(../images/chatroombg.gif);*/
+        background-repeat: no-repeat;
+        background-position:right bottom;
+    }
+    .inputroom
+    {
+        width:310px;
+        display: block;
+        float: left;
+        overflow: hidden;
+        background-color: #fff;
+    }
+    .buttomroom
+    {
+        width: 119px;
+        display: block;
+        float: left;
+        overflow: hidden;
+    }
+    .inputroom .userinput
+    {
+        width: 290px;
+        min-width: 290px;
+        max-width: 290px;
+        font-size: 1.25em;
+        text-align: left;
+        background-color: transparent;
+        vertical-align: bottom;
+        border: 1px solid #aaa;
+        padding: 6px 0 4px 5px;
+        color: #5F5F5F;
+    }
+    #chatbtn
+    {
+        width: 98px;
+        height: 40px;
+        display: block;
+        overflow: hidden;
+    }
+
+    #liaotian
+    {
+        width:410px;
+        height: 500px;
+        display: block;
+        overflow-y: scroll;
+        clear: both;
+    }
+    .me
+    {
+        width: 100%;
+        display: block;
+        clear: both;
+        margin-top: 3px;
+        overflow:hidden;
+    }
+    .me_msg
+    {
+        float: right;
+        color: Blue;
+        width:317px;
+        font-size: 14px;
+        margin-right: 7px;
+        text-align:right;
+        line-height:20px;
+        overflow:hidden;
+    }
+    .me_img
+    {
+        float: right;
+        width: 37px;
+        height: 45px;
+        margin-right: 10px;
+        /*background: url( './man.png' ) no-repeat 0px -240px;*/
+        overflow:hidden;
+    }
+    .bot
+    {
+        border-bottom: 1px solid #eee;
+        width: 100%;
+        display: block;
+        clear: both;
+        overflow:hidden;
+    }
+    .bot_img
+    {
+        float: left;
+        width: 44px;
+        height: 43px;
+        margin-left: 10px;
+        /*background: url( '' ) no-repeat 0px -187px;*/
+        overflow:hidden;
+    }
+    .bot_msg
+    {
+        color: green;
+        font-size: 14px;
+        margin-left: 7px;
+        line-height:20px;
+        width:317px;
+        float:left;
+        overflow:hidden;
+    }
+    .h
+    {
+        display:none;
+    }
+
+    .content
+    {
+        position:relative;
+        font-family: "Microsoft YaHei";
+    }
+
+    </style>
+</head>
+<body>
+
+
+<div class="content">
+<div class="chatroom">
+    <br />
+    <div id="talkbox">
+        <div id="liaotian"></div>
+    </div>
+    <br />
+    <div class="sendbox">
+    <div class="inputroom">
+        <input type="text" class="userinput" name="lt_put" id="lt_put" />
+    </div>
+    <div class="buttomroom">
+        <input type="submit" id="chatbtn" value="发送" />
+    </div>
+
+    </div>
+</div>
+<input type="text" id="user_id" />
+<script type="text/javascript" src="./jquery.min.js"></script>
+<script language="javascript" type="text/javascript">
+//function ltgo()
+$(function(){
+$('#chatbtn').click(function(){
+    var newmsg=$("#lt_put").val();
+    if(newmsg=="") return;
+    $("#lt_put").css({"background-image":"url()","background-repeat":"no-repeat","background-position":"270px 10px"});
+    addmsg("我：",newmsg);
+    $("#lt_put").val("");
+
+    //发送的请求数据
+    var clientData = {'text':newmsg, 'userId':$("#user_id").val()};
+    console.log("======client发出的请求是：========"+JSON.stringify(clientData));
+    $.ajax({
+      type: "post",
+      url:"http://127.0.0.1:3005/",
+      dataType: 'json',
+      params:{"contentType": "application/json;charset=utf-8"},
+      data: clientData,
+      success: function (msg) {
+        if(msg.text != "action_listen"){
+          addmsg("机器人：",msg.text);
+        }
+      },
+      error:function(jqXHR){
+        alert("发生错误:"+jqXHR.status);
+      }
+    });
+});
+});
+function addmsg(username,msg)
+{
+    console.log("*************"+msg);
+    var oldhtml=$("#liaotian").html();
+    if(username=="我：")
+    {
+        newhtml="<div class='me'><span class='me_img'></span><span class='me_msg'>"+msg+"</span></div>";
+    }
+    else
+    {
+        newhtml="<div class='bot'><span class='bot_img'></span><span class='bot_msg'>"+msg+"</span></div>";
+    }
+    $("#liaotian").html(oldhtml+newhtml);
+    var scrollTop = $("#liaotian")[0].scrollHeight;
+    $("#liaotian").scrollTop(scrollTop);
+}
+</script>
+
+</body>
+</html>
