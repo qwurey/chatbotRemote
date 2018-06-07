@@ -15,3 +15,17 @@ This project is still in the process of development.
 1. Questions or advises about chatbot: contact to @Wei Qiao, email: qw.urey@gmail.com
 2. Questions or advises about chatbotService and chatbotClient: contact to @BingYing Wang, email: 
 
+#### *How to start*
+
+```
+cd ~/chatbotRemote/chatbot
+./start.sh
+
+cd ~/chatbotRemote/chatbotClient
+npm start
+
+cd ~/chatbotRemote/chatbotService
+npm start
+
+open url: http://127.0.0.1:4000/index.html
+```
