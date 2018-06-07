@@ -6,9 +6,12 @@
 
 <br>
 <br>
+
 #### *Statement*
 This project is still in the process of development.
+
 <br>
+
 1. Questions or advises about chatbot: contact to @Wei Qiao, email: qw.urey@gmail.com
 2. Questions or advises about chatbotService and chatbotClient: contact to @BingYing Wang, email: 
 
