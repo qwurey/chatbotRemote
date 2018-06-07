@@ -1,8 +1,8 @@
 #### *Architechture*
 
-1. chatbot: Use rasa nlu and rasa core as backend. And use rasa core as a http server.
-2. chatbotService: Forwarding different clients requests to chatbot and then receive chatbot's actions to forward to different clients.
-3. chatbotClient: Different user use different client to get service from chatbot.
+1. chatbot(python3): Use rasa nlu and rasa core as backend. And use rasa core as a http server.
+2. chatbotService(nodeJs): Forwarding different clients requests to chatbot and then receive chatbot's actions to forward to different clients.
+3. chatbotClient(nodeJs): Different user use different client to get service from chatbot.
 
 <br>
 <br>
